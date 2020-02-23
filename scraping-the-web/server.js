@@ -1,3 +1,4 @@
+// Dependencies
 var express = require("express");
 var mongojs = require("mongojs");
 // Require axios and cheerio. This makes the scraping possible
@@ -6,8 +7,10 @@ var cheerio = require("cheerio");
 
 // Initialize Express
 var app = express();
-var databaseUrl = "scraper";
-var collections = ["scrapedData"];
+
+// Database configuration
+var databaseUrl = "scrapeddata";
+var collections = ["collectdata"];
 
 // Hook mongojs configuration to the db variable
 var db = mongojs(databaseUrl, collections);
@@ -23,7 +26,7 @@ app.get("/", function(req, res) {
 // Retrieve data from the db
 app.get("/all", function(req, res) {
   // Find all results from the scrapedData collection in the db
-  db.scrapedData.find({}, function(error, found) {
+  db.collectdata.find({}, function(error, found) {
     // Throw any errors to the console
     if (error) {
       console.log(error);
@@ -50,7 +53,7 @@ app.get("/scrape", function(req, res) {
       // If this found element had both a title and a link
       if (title && link) {
         // Insert the data in the scrapedData db
-        db.scrapedData.insert({
+        db.scrapeddata.insert({
           title: title,
           link: link
         },
